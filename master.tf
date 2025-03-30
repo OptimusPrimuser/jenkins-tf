@@ -23,6 +23,9 @@ resource "aws_launch_template" "jenkins_master_image" {
 
 resource "aws_autoscaling_group" "master_asg" {
     name = "master_jenkins_asg"
+    vpc_zone_identifier = [
+        var.public_subnet
+    ]
     availability_zones = [ "us-east-1a" ]
     min_size = 1
     max_size = 1

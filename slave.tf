@@ -28,6 +28,9 @@ resource "aws_autoscaling_group" "slave_asg" {
     availability_zones = [ "us-east-1a" ]
     min_size = 1
     max_size = 1
+    vpc_zone_identifier = [
+      var.private_subnet
+    ]
     launch_template {
       id = aws_launch_template.jenkins_slave_image.id
     }

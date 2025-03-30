@@ -11,6 +11,12 @@ variable "keypair_name" {
 variable "vpc_id" {
 }
 
+variable "public_subnet" {
+}
+
+variable "private_subnet" {
+}
+
 variable "master_volume_size" {
   description = "Data volume size for the Master instance (GB)."
   type        = number
