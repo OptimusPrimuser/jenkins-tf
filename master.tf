@@ -39,4 +39,9 @@ data "aws_instance" "master_instance" {
     instance_tags = {
         "aws:autoscaling:groupName" = aws_autoscaling_group.master_asg.name
     }
+
+    filter {
+      name = "instance-state-name"
+      values = [ "running" ]
+    }
 }
