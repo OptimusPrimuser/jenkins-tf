@@ -16,8 +16,21 @@ resource "aws_launch_template" "jenkins_slave_image" {
             volume_type = var.slave_volume_type
         }
     }
+    instance_type = "t2.micro"
     user_data = base64encode(templatefile("${path.module}/jenkins-slave-setup.tftpl", {
     jenkins_master_public_ip = data.aws_instance.master_instance
     jenkins_admin_password   = var.jenkins_admin_password
   }))
+}
+
+resource "aws_autoscaling_group" "slave_asg" {
+    name = "slave_jenkins_asg"
+    availability_zones = [ "us-east-1a" ]
+    min_size = 1
+    max_size = 1
+    launch_template {
+      id = aws_launch_template.jenkins_slave_image.id
+    }
+    depends_on = [ aws_launch_template.jenkins_slave_image ]
+
 }

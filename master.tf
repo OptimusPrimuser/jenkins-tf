@@ -27,7 +27,7 @@ resource "aws_autoscaling_group" "master_asg" {
     min_size = 1
     max_size = 1
     launch_template {
-      id = aws_launch_template.jenkins_master_image
+      id = aws_launch_template.jenkins_master_image.id
     }
     depends_on = [ aws_launch_template.jenkins_master_image ]
 
