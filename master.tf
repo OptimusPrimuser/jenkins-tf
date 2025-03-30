@@ -5,7 +5,7 @@ resource "aws_launch_template" "jenkins_master_image" {
       Name = "jenkins_master_image"
     }
     instance_type = "t2.medium"
-    user_data = base64encode(templatefile("${path.module}/jenkins_master_setup.tftpl", {
+    user_data = base64encode(templatefile("${path.module}/jenkins-master-setup.tftpl", {
                 jenkins_admin_password = var.jenkins_admin_password
             }
         ) 
