@@ -18,7 +18,7 @@ resource "aws_launch_template" "jenkins_slave_image" {
     }
     instance_type = "t2.micro"
     user_data = base64encode(templatefile("${path.module}/jenkins-slave-setup.tftpl", {
-    jenkins_master_public_ip = data.aws_instance.master_instance
+    jenkins_master_public_ip = data.aws_instance.master_instance.public_ip
     jenkins_admin_password   = var.jenkins_admin_password
   }))
 }
