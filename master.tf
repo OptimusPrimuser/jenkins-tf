@@ -26,7 +26,6 @@ resource "aws_autoscaling_group" "master_asg" {
     vpc_zone_identifier = [
         var.public_subnet
     ]
-    availability_zones = [ "us-east-1a" ]
     min_size = 1
     max_size = 1
     launch_template {

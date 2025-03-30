@@ -25,7 +25,6 @@ resource "aws_launch_template" "jenkins_slave_image" {
 
 resource "aws_autoscaling_group" "slave_asg" {
     name = "slave_jenkins_asg"
-    availability_zones = [ "us-east-1a" ]
     min_size = 1
     max_size = 1
     vpc_zone_identifier = [
