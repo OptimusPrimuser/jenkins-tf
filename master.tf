@@ -22,6 +22,7 @@ resource "aws_launch_template" "jenkins_master_image" {
 }
 
 resource "aws_autoscaling_group" "master_asg" {
+    name = "master_jenkins_asg"
     availability_zones = [ "us-east-1a" ]
     min_size = 1
     max_size = 1
@@ -30,4 +31,10 @@ resource "aws_autoscaling_group" "master_asg" {
     }
     depends_on = [ aws_launch_template.jenkins_master_image ]
 
+}
+
+data "aws_instance" "master_instance" {
+    instance_tags = {
+        "aws:autoscaling:groupName" = aws_autoscaling_group.master_asg.name
+    }
 }

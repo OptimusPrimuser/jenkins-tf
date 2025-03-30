@@ -17,7 +17,7 @@ resource "aws_launch_template" "jenkins_slave_image" {
         }
     }
     user_data = base64encode(templatefile("${path.module}/jenkins_slave_userdata.tftpl", {
-    jenkins_master_public_ip = var.jenkins_master_public_ip
+    jenkins_master_public_ip = data.aws_instance.master_instance
     jenkins_admin_password   = var.jenkins_admin_password
   }))
 }
