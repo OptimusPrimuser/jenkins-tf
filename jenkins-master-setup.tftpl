@@ -1,0 +1,14 @@
+#!/bin/bash
+apt-get update -y
+apt-get install openjdk-11-jdk -y
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo apt-key add -
+echo deb https://pkg.jenkins.io/debian-stable binary/ | sudo tee -a /etc/apt/sources.list.d/jenkins.list
+apt-get update -y
+apt-get install jenkins -y
+systemctl enable jenkins
+systemctl start jenkins
+
+INITIAL_ADMIN_PASSWORD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
+
+java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:"$INITIAL_ADMIN_PASSWORD" groovy 'println jenkins.model.Jenkins.instance.getUser("admin").addProperty(new hudson.security.HudsonPrivateSecurityRealm.Details("${jenkins_admin_password}"))'
+systemctl restart jenkins

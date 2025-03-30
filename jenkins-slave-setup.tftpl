@@ -1,0 +1,16 @@
+#!/bin/bash
+apt-get update -y
+apt-get install openjdk-11-jdk -y
+apt-get install curl -y
+
+# Get the Jenkins CLI jar
+wget http://${jenkins_master_public_ip}:8080/jnlpJars/jenkins-cli.jar -O /home/ubuntu/jenkins-cli.jar
+
+# Get the instance ID
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+
+# Retrieve the agent secret using the Jenkins CLI
+AGENT_SECRET=$(java -jar /home/ubuntu/jenkins-cli.jar -s http://${jenkins_master_public_ip}:8080 -auth admin:${jenkins_admin_password} get-computer $INSTANCE_ID | grep secret | awk '{print $2}')
+
+# Start Jenkins JNLP agent.
+java -jar /home/ubuntu/jenkins-cli.jar -s http://${jenkins_master_public_ip}:8080/ slave-agent -jnlpUrl http://${jenkins_master_public_ip}:8080/computer/$INSTANCE_ID/slave-agent.jnlp -secret $AGENT_SECRET -workDir /home/ubuntu/jenkins_slave
