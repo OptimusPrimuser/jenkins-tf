@@ -16,7 +16,7 @@ resource "aws_launch_template" "jenkins_slave_image" {
             volume_type = var.slave_volume_type
         }
     }
-    user_data = base64encode(templatefile("${path.module}/jenkins_slave_userdata.tftpl", {
+    user_data = base64encode(templatefile("${path.module}/jenkins_slave_setup.tftpl", {
     jenkins_master_public_ip = data.aws_instance.master_instance
     jenkins_admin_password   = var.jenkins_admin_password
   }))
