@@ -19,5 +19,6 @@ systemctl start jenkins
 
 INITIAL_ADMIN_PASSWORD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 
-java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:"$INITIAL_ADMIN_PASSWORD" groovy 'println jenkins.model.Jenkins.instance.getUser("admin").addProperty(new hudson.security.HudsonPrivateSecurityRealm.Details("${jenkins_admin_password}"))'
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:"$INITIAL_ADMIN_PASSWORD" change-password admin ${jenkins_admin_password}
+#groovy 'println jenkins.model.Jenkins.instance.getUser("admin").addProperty(new hudson.security.HudsonPrivateSecurityRealm.Details("${jenkins_admin_password}"))'
 systemctl restart jenkins
